@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Violation viewer", "Violation viewer\Violation viewer.csproj", "{73D1E224-A6BC-4C6F-B553-040EF1581DD6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73D1E224-A6BC-4C6F-B553-040EF1581DD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D1E224-A6BC-4C6F-B553-040EF1581DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D1E224-A6BC-4C6F-B553-040EF1581DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D1E224-A6BC-4C6F-B553-040EF1581DD6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6029D649-48B3-421C-ADF0-E712EF50A7D6}
+	EndGlobalSection
+EndGlobal
