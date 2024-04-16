@@ -63,5 +63,40 @@ namespace Violation_viewer
 
         }
 
+        void panel1_DragDrop(object sender, DragEventArgs e)
+        {
+
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(files[0]);
+
+            XmlNodeList girlAddress = xDoc.GetElementsByTagName("v_camera");
+            XmlNodeList pic = xDoc.GetElementsByTagName("v_photo_ts");
+
+            this.label1.Text = girlAddress[0].InnerText;
+
+            this.pictureBox1.BorderStyle = BorderStyle.Fixed3D;
+            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+
+
+            // Convert Base64 to Image
+            var bytes = Convert.FromBase64String(pic[0].InnerText);
+            MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length);
+            ms.Write(bytes, 0, bytes.Length);
+            Image image = Image.FromStream(ms, true);
+            ms.Close();
+            GC.Collect();
+
+            pictureBox1.Image = image;
+
+        }
+
+        private void panel1_DragEnter(object sender, DragEventArgs e)
+        {
+            if(e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
     }
 }
