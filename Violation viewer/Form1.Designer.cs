@@ -1,6 +1,6 @@
 ﻿namespace Violation_viewer
 {
-    partial class Form1
+    partial class UI
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,120 +28,174 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UI));
+            this.listName = new System.Windows.Forms.ListBox();
+            this.imdBox = new System.Windows.Forms.PictureBox();
+            this.SelectFolder = new System.Windows.Forms.TextBox();
+            this.FolderSave = new System.Windows.Forms.TextBox();
+            this.SelecDownloadFolder = new System.Windows.Forms.Button();
+            this.SelectFolderSave = new System.Windows.Forms.Button();
+            this.SaveCurrent = new System.Windows.Forms.Button();
+            this.SaveAll = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox1.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imdBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // listName
             // 
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1288, 66);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.listName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listName.FormattingEnabled = true;
+            this.listName.ItemHeight = 20;
+            this.listName.Location = new System.Drawing.Point(3, 4);
+            this.listName.Name = "listName";
+            this.listName.Size = new System.Drawing.Size(200, 724);
+            this.listName.TabIndex = 0;
+            // 
+            // imdBox
+            // 
+            this.imdBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.imdBox.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.imdBox.Location = new System.Drawing.Point(207, 4);
+            this.imdBox.Name = "imdBox";
+            this.imdBox.Size = new System.Drawing.Size(1280, 720);
+            this.imdBox.TabIndex = 2;
+            this.imdBox.TabStop = false;
+            // 
+            // SelectFolder
+            // 
+            this.SelectFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SelectFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SelectFolder.Location = new System.Drawing.Point(207, 736);
+            this.SelectFolder.Name = "SelectFolder";
+            this.SelectFolder.Size = new System.Drawing.Size(500, 26);
+            this.SelectFolder.TabIndex = 1;
+            // 
+            // FolderSave
+            // 
+            this.FolderSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.FolderSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FolderSave.Location = new System.Drawing.Point(712, 736);
+            this.FolderSave.Name = "FolderSave";
+            this.FolderSave.Size = new System.Drawing.Size(500, 26);
+            this.FolderSave.TabIndex = 1;
+            // 
+            // SelecDownloadFolder
+            // 
+            this.SelecDownloadFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SelecDownloadFolder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.SelecDownloadFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SelecDownloadFolder.Location = new System.Drawing.Point(207, 770);
+            this.SelecDownloadFolder.Name = "SelecDownloadFolder";
+            this.SelecDownloadFolder.Size = new System.Drawing.Size(500, 40);
+            this.SelecDownloadFolder.TabIndex = 2;
+            this.SelecDownloadFolder.Text = "Select download folder";
+            this.SelecDownloadFolder.UseVisualStyleBackColor = true;
+            this.SelecDownloadFolder.Click += new System.EventHandler(this.Select_Click);
+            // 
+            // SelectFolderSave
+            // 
+            this.SelectFolderSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.SelectFolderSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.SelectFolderSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SelectFolderSave.Location = new System.Drawing.Point(712, 770);
+            this.SelectFolderSave.Name = "SelectFolderSave";
+            this.SelectFolderSave.Size = new System.Drawing.Size(500, 40);
+            this.SelectFolderSave.TabIndex = 2;
+            this.SelectFolderSave.Text = "Select a folder to save";
+            this.SelectFolderSave.UseVisualStyleBackColor = true;
+            // 
+            // SaveCurrent
+            // 
+            this.SaveCurrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SaveCurrent.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.SaveCurrent.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SaveCurrent.Location = new System.Drawing.Point(1218, 732);
+            this.SaveCurrent.Name = "SaveCurrent";
+            this.SaveCurrent.Size = new System.Drawing.Size(270, 40);
+            this.SaveCurrent.TabIndex = 6;
+            this.SaveCurrent.Text = "Save current";
+            this.SaveCurrent.UseVisualStyleBackColor = true;
+            this.SaveCurrent.Click += new System.EventHandler(this.SaveCurrent_Click);
+            // 
+            // SaveAll
+            // 
+            this.SaveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SaveAll.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.SaveAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SaveAll.Location = new System.Drawing.Point(1218, 774);
+            this.SaveAll.Name = "SaveAll";
+            this.SaveAll.Size = new System.Drawing.Size(270, 40);
+            this.SaveAll.TabIndex = 7;
+            this.SaveAll.Text = "Save all";
+            this.SaveAll.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(413, 21);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(367, 295);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 2;
+            this.label1.Size = new System.Drawing.Size(51, 20);
+            this.label1.TabIndex = 8;
             this.label1.Text = "label1";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(16, 21);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(205, 20);
-            this.textBox1.TabIndex = 1;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(227, 19);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(3, 740);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
+            this.button1.Size = new System.Drawing.Size(198, 71);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Сlear";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Select_Click);
             // 
-            // groupBox2
+            // UI
             // 
-            this.groupBox2.Location = new System.Drawing.Point(13, 822);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1280, 116);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            // 
-            // panel1
-            // 
-            this.panel1.AllowDrop = true;
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(12, 84);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1288, 732);
-            this.panel1.TabIndex = 4;
-            this.panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel1_DragDrop);
-            this.panel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.panel1_DragEnter);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1280, 724);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // Form1
-            // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1312, 961);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ClientSize = new System.Drawing.Size(1499, 821);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.SaveAll);
+            this.Controls.Add(this.SaveCurrent);
+            this.Controls.Add(this.SelectFolderSave);
+            this.Controls.Add(this.SelecDownloadFolder);
+            this.Controls.Add(this.FolderSave);
+            this.Controls.Add(this.SelectFolder);
+            this.Controls.Add(this.imdBox);
+            this.Controls.Add(this.listName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.MinimumSize = new System.Drawing.Size(1515, 860);
+            this.Name = "UI";
             this.Text = "Violation viewer";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.UI_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.UI_DragEnter);
+            ((System.ComponentModel.ISupportInitialize)(this.imdBox)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ListBox listName;
+        private System.Windows.Forms.PictureBox imdBox;
+        private System.Windows.Forms.TextBox SelectFolder;
+        private System.Windows.Forms.TextBox FolderSave;
+        private System.Windows.Forms.Button SelecDownloadFolder;
+        private System.Windows.Forms.Button SelectFolderSave;
+        private System.Windows.Forms.Button SaveCurrent;
+        private System.Windows.Forms.Button SaveAll;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button1;
     }
 }
 
