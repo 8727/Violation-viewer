@@ -71,14 +71,24 @@ namespace Violation_viewer
 
                     switch (violation_type_photo[index-1].InnerText)
                     {
+                        case "0":
+                            fil = new FileInfo(saveFolder + fileName + "_extra_" + index + ".jpg");
+                            break;
+                        case "1":
+                            fil = new FileInfo(saveFolder + fileName + "_extra_" + index + ".jpg");
+                            break;
+                        case "2":
+                            fil = new FileInfo(saveFolder + fileName + "_Video_" + index + ".webm");
+                            break;
                         case "3":
                             fil = new FileInfo(saveFolder + fileName + "_Video_" + index + ".mp4");
                             break;
-
                         case "4":
-                            fil = new FileInfo(saveFolder + fileName + "_extra_" + index + ".jpg");
+                            fil = new FileInfo(saveFolder + fileName + "_PDF_" + index + ".pdf");
                             break;
-
+                        case "5":
+                            fil = new FileInfo(saveFolder + fileName + "_XML_" + index + ".xml");
+                            break;
                         default:
                             fil = new FileInfo(saveFolder + fileName + "_extra_" + index + ".jpg");
                             break;
