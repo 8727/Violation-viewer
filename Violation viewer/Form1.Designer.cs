@@ -108,6 +108,7 @@
             this.SelectFolderSave.TabIndex = 2;
             this.SelectFolderSave.Text = "Select a folder to save";
             this.SelectFolderSave.UseVisualStyleBackColor = true;
+            this.SelectFolderSave.Click += new System.EventHandler(this.SelectFolderSave_Click);
             // 
             // SaveCurrent
             // 

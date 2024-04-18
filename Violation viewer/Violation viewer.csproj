@@ -87,5 +87,10 @@
     <None Include="Resources\select.png" />
     <Content Include="view_search.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WindowsAPICodePack-Shell">
+      <Version>1.1.1</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

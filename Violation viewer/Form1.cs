@@ -3,10 +3,8 @@ using System.Xml;
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Xml.Linq;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Violation_viewer
 {
@@ -17,8 +15,12 @@ namespace Violation_viewer
         {
             InitializeComponent();
 
-
+            string folders = Application.StartupPath.ToString();
+            SelectFolder.Text = folders;
+            FolderSave.Text = folders;
         }
+
+
         List<String> ListFiles = new List<String>();
 
         void ReadFolder(string path)
@@ -27,20 +29,50 @@ namespace Violation_viewer
             listName.Items.AddRange(Directory.GetFiles(path, "*.xml", SearchOption.AllDirectories));
         }
 
-        void SaveViolation(string pathXML1, string saveFolder1)
+        void UI_DragEnter(object sender, DragEventArgs e)
         {
-            string pathXML = "D:\\Duplo\\2345678\\О261ХР161_000204_message.xml";
-            string saveFolder = "D:\\Duplo";
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
 
+        void Select_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = SelectFolder.Text;
+            dialog.IsFolderPicker = true;
+            dialog.Multiselect = true;
 
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+
+                SelectFolder.Text = dialog.FileName;
+            }
+        }
+
+        void SelectFolderSave_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = FolderSave.Text;
+            dialog.IsFolderPicker = true;
+            dialog.Multiselect = true;
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                FolderSave.Text = dialog.FileName;
+            }
+        }
+
+        void SaveViolation(string pathXML, string saveFolder)
+        {
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load(pathXML);
 
-            XmlNodeList violation_check_time = xDoc.GetElementsByTagName("v_time_check");
-            string data = violation_check_time[0].InnerText.Remove(violation_check_time[0].InnerText.IndexOf("T"));
-            if (true)
+            if (xDoc.SelectSingleNode("//v_type_photo") == null)
             {
                 FileInfo fil;
+
+                XmlNodeList violation_check_time = xDoc.GetElementsByTagName("v_time_check");
+                string data = violation_check_time[0].InnerText.Remove(violation_check_time[0].InnerText.IndexOf("T"));
 
                 XmlNodeList violation_camera = xDoc.GetElementsByTagName("v_camera");
                 XmlNodeList violation_regno = xDoc.GetElementsByTagName("v_regno");
@@ -49,8 +81,13 @@ namespace Violation_viewer
                 XmlNodeList violation_type_photo = xDoc.GetElementsByTagName("v_type_photo");
                 XmlNodeList violation_photo_extra = xDoc.GetElementsByTagName("v_photo_extra");
 
+                DirectoryInfo dirInfo = new DirectoryInfo(saveFolder + "\\" + data);
+                if (!dirInfo.Exists)
+                {
+                    dirInfo.Create();
+                }
 
-                string fileName = "\\" + data + "_" + violation_camera[0].InnerText + "_" + violation_pr_viol[0].InnerText + "_" + violation_regno[0].InnerText;
+                string fileName = "\\" + data + "\\" + violation_camera[0].InnerText + "_" + violation_pr_viol[0].InnerText + " " + violation_regno[0].InnerText;
 
                 var bytes = Convert.FromBase64String(violation_photo_ts[0].InnerText);
 
@@ -103,70 +140,32 @@ namespace Violation_viewer
 
                     index--;
                 }
-      
             }
+            else
+            {
 
+                MessageBox.Show("123", "67", MessageBoxButtons.OK);
+            }
         }
-        void Select_Click(object sender, EventArgs e)
+
+        void ViewerIMG(string pathXML)
         {
-            FolderBrowserDialog FBD = new FolderBrowserDialog();
-            FBD.ShowNewFolderButton = false;
-            if (FBD.ShowDialog() == DialogResult.OK)
-            {
-                SelectFolder.Text = FBD.SelectedPath;
-                ReadFolder(FBD.SelectedPath);
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(pathXML);
 
-            }
+            XmlNodeList img = xDoc.GetElementsByTagName("v_photo_ts");
 
+            imdBox.SizeMode = PictureBoxSizeMode.CenterImage;
+            imdBox.SizeMode = PictureBoxSizeMode.Zoom;
 
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.InitialDirectory = Application.StartupPath.ToString();
-                openFileDialog.Filter = "Firmware(*.xml) | *.xml";
-                //openFileDialog.RestoreDirectory = true;
+            var bytes = Convert.FromBase64String(img[0].InnerText);
+            MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length);
+            ms.Write(bytes, 0, bytes.Length);
+            Image image = Image.FromStream(ms, true);
+            ms.Close();
+            GC.Collect();
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-
-
-
-                    XmlDocument xDoc = new XmlDocument();
-                    xDoc.Load(openFileDialog.FileName);
-
-                    XmlNodeList girlAddress = xDoc.GetElementsByTagName("v_camera");
-                    XmlNodeList pic = xDoc.GetElementsByTagName("v_photo_ts");
-
-                    //this.label1.Text = girlAddress[0].InnerText;
-
-
-
-                    imdBox.SizeMode = PictureBoxSizeMode.CenterImage;
-                    imdBox.SizeMode = PictureBoxSizeMode.Zoom;
-
-
-                    // Convert Base64 to Image
-                    var bytes = Convert.FromBase64String(pic[0].InnerText);
-                    MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length);
-                    ms.Write(bytes, 0, bytes.Length);
-                    Image image = Image.FromStream(ms, true);
-
-
-                    imdBox.Image = image;
-
-                    string saveFolder = "D:\\Duplo\\" + girlAddress[0].InnerText + "456.jpg";
-                    image.Save(saveFolder, ImageFormat.Jpeg);
-
-                    ms.Close();
-                    GC.Collect();
-
-                }
-            }
-
-
-
-
-
-
+            imdBox.Image = image;
         }
 
         void UI_DragDrop(object sender, DragEventArgs e)
@@ -177,50 +176,16 @@ namespace Violation_viewer
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load(files[0]);
 
-            XmlNodeList girlAddress = xDoc.GetElementsByTagName("v_camera");
-            XmlNodeList pic = xDoc.GetElementsByTagName("v_photo_ts");
-
-            //this.label1.Text = girlAddress[0].InnerText;
-
-            imdBox.SizeMode = PictureBoxSizeMode.CenterImage;
-            imdBox.SizeMode = PictureBoxSizeMode.Zoom;
-
-
-            // Convert Base64 to Image
-            var bytes = Convert.FromBase64String(pic[0].InnerText);
-            MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length);
-            ms.Write(bytes, 0, bytes.Length);
-            Image image = Image.FromStream(ms, true);
-            ms.Close();
-            GC.Collect();
-
-            imdBox.Image = image;
+         
 
         }
 
-        private void SaveCurrent_Click(object sender, EventArgs e)
+        void SaveCurrent_Click(object sender, EventArgs e)
         {
-            SaveViolation("rty", "rtyu");
+
+            string pathXML = "D:\\Duplo\\2345678\\О261ХР161_000204_message.xml";
+
+            SaveViolation(pathXML, FolderSave.Text);
         }
-
-        void UI_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Copy;
-
-/*            Pen pen = new Pen(Color.Black, 2);
-            Graphics g = Panel.CreateGraphics();
-            pen.DashPattern = new float[] { 10, 10 };
-
-            g.DrawRectangle(pen, 1, 1, Panel.Width - 4, Panel.Height - 4);*/
-        }
-
-/*        void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-            Pen pen = new Pen(Color.Black, 2);
-            pen.DashPattern = new float[] { 10, 10 };
-            e.Graphics.DrawRectangle(pen, 1, 1, Panel.Width - 4, Panel.Height - 4);
-        }*/
     }
 }
