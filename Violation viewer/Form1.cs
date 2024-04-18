@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Collections.Generic;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Collections;
 
 namespace Violation_viewer
 {
@@ -20,13 +21,23 @@ namespace Violation_viewer
             FolderSave.Text = folders;
         }
 
-
-        List<String> ListFiles = new List<String>();
+        Hashtable ListFiles = new Hashtable();
+        List<String> NaneList = new List<String>();
 
         void ReadFolder(string path)
         {
-            ListFiles.AddRange(Directory.GetFiles(path, "*.xml", SearchOption.AllDirectories));
-            listName.Items.AddRange(Directory.GetFiles(path, "*.xml", SearchOption.AllDirectories));
+            XmlDocument xFile = new XmlDocument();
+            string[] tempfiles = Directory.GetFiles(path, "*.xml", SearchOption.AllDirectories);
+            foreach (string file in tempfiles)
+            {
+                xFile.Load(file);
+                if (xFile.SelectSingleNode("//v_type_photo") != null)
+                {
+                    String NameFile = Path.GetFileName(file);
+                    ListFiles.Add(NameFile, file);
+                    listName.Items.Add(NameFile);
+                }
+            }
         }
 
         void UI_DragEnter(object sender, DragEventArgs e)
@@ -44,8 +55,13 @@ namespace Violation_viewer
 
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-
                 SelectFolder.Text = dialog.FileName;
+                ReadFolder(SelectFolder.Text);
+            }
+
+            if (listName.Items.Count > 0)
+            {
+                listName.SetSelected(0, true);
             }
         }
 
@@ -67,7 +83,7 @@ namespace Violation_viewer
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load(pathXML);
 
-            if (xDoc.SelectSingleNode("//v_type_photo") == null)
+            if (xDoc.SelectSingleNode("//v_type_photo") != null)
             {
                 FileInfo fil;
 
@@ -141,11 +157,6 @@ namespace Violation_viewer
                     index--;
                 }
             }
-            else
-            {
-
-                MessageBox.Show("123", "67", MessageBoxButtons.OK);
-            }
         }
 
         void ViewerIMG(string pathXML)
@@ -170,22 +181,53 @@ namespace Violation_viewer
 
         void UI_DragDrop(object sender, DragEventArgs e)
         {
-            //Panel.CreateGraphics().Clear(SystemColors.Control);
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            XmlDocument xFile = new XmlDocument();
+            foreach (string obj in (string[])e.Data.GetData(DataFormats.FileDrop))
+            {
+                if (Directory.Exists(obj))
+                {
+                    ReadFolder(obj);
+                }
+                else
+                {
+                    xFile.Load(obj);
+                    if (xFile.SelectSingleNode("//v_type_photo") != null)
+                    {
+                        String NameFile = Path.GetFileName(obj);
+                        ListFiles.Add(NameFile, obj);
+                        listName.Items.Add(NameFile);
+                    }
+                }
+            }
 
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.Load(files[0]);
-
-         
-
+            if(listName.Items.Count > 0)
+            {
+                listName.SetSelected(0, true);
+            }
         }
 
         void SaveCurrent_Click(object sender, EventArgs e)
         {
+            if (listName.Items.Count > 0)
+            {
+                string selectedCountry = listName.SelectedItem.ToString();
+                string x = (string)ListFiles[selectedCountry];
+                SaveViolation(x, FolderSave.Text);
+            }
+        }
 
-            string pathXML = "D:\\Duplo\\2345678\\О261ХР161_000204_message.xml";
+        private void listName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedCountry = listName.SelectedItem.ToString();
+            string x = (string)ListFiles[selectedCountry];
+            ViewerIMG(x);
+            label1.Text = selectedCountry;
+        }
 
-            SaveViolation(pathXML, FolderSave.Text);
+        private void Сlear_Click(object sender, EventArgs e)
+        {
+            listName.Items.Clear();
+            ListFiles.Clear();
         }
     }
 }
