@@ -6,6 +6,8 @@ using System.IO;
 using System.Collections.Generic;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Violation_viewer
 {
@@ -19,10 +21,35 @@ namespace Violation_viewer
             string folders = Application.StartupPath.ToString();
             SelectFolder.Text = folders;
             FolderSave.Text = folders;
+/*            ReadFolder(SelectFolder.Text);
+            if (listName.Items.Count > 0)
+            {
+                listName.SetSelected(0, true);
+            }*/
         }
 
         Hashtable ListFiles = new Hashtable();
         List<String> NaneList = new List<String>();
+
+        string NameCreation(string name)
+        {
+            Regex regex = new Regex(@"\d{4}-");
+            if (regex.IsMatch(name))
+            {
+                int number = (int.Parse(name.Remove(name.IndexOf("-"))) + 1);
+                name = number.ToString("0000") + name.Substring(4);
+            }
+            else
+            {
+                name = "0000-" + name;
+            }
+
+            if (ListFiles.ContainsKey(name))
+            {
+                name = NameCreation(name);
+            }
+            return name;
+        }
 
         void ReadFolder(string path)
         {
@@ -31,9 +58,15 @@ namespace Violation_viewer
             foreach (string file in tempfiles)
             {
                 xFile.Load(file);
-                if (xFile.SelectSingleNode("//v_type_photo") != null)
+                if (xFile.SelectSingleNode("//v_photo_ts") != null)
                 {
                     String NameFile = Path.GetFileName(file);
+
+                    if (ListFiles.ContainsKey(NameFile))
+                    {
+                        NameFile = NameCreation(NameFile);
+                    }
+
                     ListFiles.Add(NameFile, file);
                     listName.Items.Add(NameFile);
                 }
@@ -83,7 +116,7 @@ namespace Violation_viewer
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load(pathXML);
 
-            if (xDoc.SelectSingleNode("//v_type_photo") != null)
+            if (xDoc.SelectSingleNode("//v_photo_ts") != null)
             {
                 FileInfo fil;
 
@@ -166,9 +199,6 @@ namespace Violation_viewer
 
             XmlNodeList img = xDoc.GetElementsByTagName("v_photo_ts");
 
-            imdBox.SizeMode = PictureBoxSizeMode.CenterImage;
-            imdBox.SizeMode = PictureBoxSizeMode.Zoom;
-
             var bytes = Convert.FromBase64String(img[0].InnerText);
             MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length);
             ms.Write(bytes, 0, bytes.Length);
@@ -191,9 +221,15 @@ namespace Violation_viewer
                 else
                 {
                     xFile.Load(obj);
-                    if (xFile.SelectSingleNode("//v_type_photo") != null)
+                    if (xFile.SelectSingleNode("//v_photo_ts") != null)
                     {
                         String NameFile = Path.GetFileName(obj);
+
+                        if (ListFiles.ContainsKey(NameFile))
+                        {
+                            NameFile = NameCreation(NameFile);
+                        }
+
                         ListFiles.Add(NameFile, obj);
                         listName.Items.Add(NameFile);
                     }
@@ -216,18 +252,32 @@ namespace Violation_viewer
             }
         }
 
-        private void listName_SelectedIndexChanged(object sender, EventArgs e)
+        void listName_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedCountry = listName.SelectedItem.ToString();
             string x = (string)ListFiles[selectedCountry];
             ViewerIMG(x);
-            label1.Text = selectedCountry;
+            //label1.Text = selectedCountry;
         }
 
-        private void Сlear_Click(object sender, EventArgs e)
+        void Сlear_Click(object sender, EventArgs e)
         {
             listName.Items.Clear();
             ListFiles.Clear();
+            imdBox.Image = global::Violation_viewer.Properties.Resources.filenotselected;
+        }
+
+        void SaveAll_Click(object sender, EventArgs e)
+        {
+            if (listName.Items.Count > 0)
+            {
+                foreach (string item in listName.Items)
+                {
+                    string x = (string)ListFiles[item];
+                    SaveViolation(x, FolderSave.Text);
+
+                }
+            }
         }
     }
 }

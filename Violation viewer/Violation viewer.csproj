@@ -85,6 +85,7 @@
     <Content Include="photo_gallery.ico" />
     <None Include="Resources\save.png" />
     <None Include="Resources\select.png" />
+    <None Include="Resources\filenotselected.png" />
     <Content Include="view_search.ico" />
   </ItemGroup>
   <ItemGroup>
