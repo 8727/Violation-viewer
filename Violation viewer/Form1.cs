@@ -121,7 +121,10 @@ namespace Violation_viewer
                 FileInfo fil;
 
                 XmlNodeList violation_check_time = xDoc.GetElementsByTagName("v_time_check");
+
                 string data = violation_check_time[0].InnerText.Remove(violation_check_time[0].InnerText.IndexOf("T"));
+                string datatime = violation_check_time[0].InnerText.Remove(violation_check_time[0].InnerText.IndexOf(".") -3);
+                datatime = datatime.Substring(datatime.IndexOf("T") +1);
 
                 XmlNodeList violation_camera = xDoc.GetElementsByTagName("v_camera");
                 XmlNodeList violation_regno = xDoc.GetElementsByTagName("v_regno");
@@ -136,7 +139,7 @@ namespace Violation_viewer
                     dirInfo.Create();
                 }
 
-                string fileName = "\\" + data + "\\" + violation_camera[0].InnerText + "_" + violation_pr_viol[0].InnerText + " " + violation_regno[0].InnerText;
+                string fileName = "\\" + data + "\\" + datatime.Replace(':', '.') + "_" + violation_camera[0].InnerText + "_" + violation_pr_viol[0].InnerText + "_" + violation_regno[0].InnerText;
 
                 var bytes = Convert.FromBase64String(violation_photo_ts[0].InnerText);
 
@@ -190,6 +193,7 @@ namespace Violation_viewer
                     index--;
                 }
             }
+
         }
 
         void ViewerIMG(string pathXML)
@@ -246,9 +250,21 @@ namespace Violation_viewer
         {
             if (listName.Items.Count > 0)
             {
+                Сlear.Enabled = false;
+                SelecDownloadFolder.Enabled = false;
+                SelectFolderSave.Enabled = false;
+                SaveCurrent.Enabled = false;
+                SaveAll.Enabled = false;
+
                 string selectedCountry = listName.SelectedItem.ToString();
-                string x = (string)ListFiles[selectedCountry];
-                SaveViolation(x, FolderSave.Text);
+                string filePatch = (string)ListFiles[selectedCountry];
+                SaveViolation(filePatch, FolderSave.Text);
+
+                Сlear.Enabled = true;
+                SelecDownloadFolder.Enabled = true;
+                SelectFolderSave.Enabled = true;
+                SaveCurrent.Enabled = true;
+                SaveAll.Enabled = true;
             }
         }
 
@@ -271,12 +287,28 @@ namespace Violation_viewer
         {
             if (listName.Items.Count > 0)
             {
-                foreach (string item in listName.Items)
-                {
-                    string x = (string)ListFiles[item];
-                    SaveViolation(x, FolderSave.Text);
+                Сlear.Enabled = false;
+                SelecDownloadFolder.Enabled = false;
+                SelectFolderSave.Enabled = false;
+                SaveCurrent.Enabled = false;
+                SaveAll.Enabled = false;
 
+
+                ICollection keys = ListFiles.Keys;
+                int y = 0;
+                foreach (string name in keys)
+                {
+                    string x = (string)ListFiles[name];
+                    listName.SetSelected(y, true);
+                    SaveViolation(x, FolderSave.Text);
+                    y++;
                 }
+
+                Сlear.Enabled = true;
+                SelecDownloadFolder.Enabled = true;
+                SelectFolderSave.Enabled = true;
+                SaveCurrent.Enabled = true;
+                SaveAll.Enabled = true;
             }
         }
     }
