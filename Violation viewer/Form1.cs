@@ -60,15 +60,22 @@ namespace Violation_viewer
                 xFile.Load(file);
                 if (xFile.SelectSingleNode("//v_photo_ts") != null)
                 {
-                    String NameFile = Path.GetFileName(file);
+                    XmlNodeList xmlregno = xFile.GetElementsByTagName("v_regno");
+                    string regno = xmlregno[0].InnerText;
 
-                    if (ListFiles.ContainsKey(NameFile))
+                    if (!regno.Equals("{db.CarNumber}"))
                     {
-                        NameFile = NameCreation(NameFile);
-                    }
 
-                    ListFiles.Add(NameFile, file);
-                    listName.Items.Add(NameFile);
+                        String NameFile = Path.GetFileName(file);
+
+                        if (ListFiles.ContainsKey(NameFile))
+                        {
+                            NameFile = NameCreation(NameFile);
+                        }
+
+                        ListFiles.Add(NameFile, file);
+                        listName.Items.Add(NameFile);
+                    }
                 }
             }
         }
@@ -227,15 +234,21 @@ namespace Violation_viewer
                     xFile.Load(obj);
                     if (xFile.SelectSingleNode("//v_photo_ts") != null)
                     {
-                        String NameFile = Path.GetFileName(obj);
+                        XmlNodeList xmlregno = xFile.GetElementsByTagName("v_regno");
+                        string regno = xmlregno[0].InnerText;
 
-                        if (ListFiles.ContainsKey(NameFile))
+                        if (!regno.Equals("{db.CarNumber}"))
                         {
-                            NameFile = NameCreation(NameFile);
-                        }
+                            String NameFile = Path.GetFileName(obj);
 
-                        ListFiles.Add(NameFile, obj);
-                        listName.Items.Add(NameFile);
+                            if (ListFiles.ContainsKey(NameFile))
+                            {
+                                NameFile = NameCreation(NameFile);
+                            }
+
+                            ListFiles.Add(NameFile, obj);
+                            listName.Items.Add(NameFile);
+                        }
                     }
                 }
             }
